@@ -1,0 +1,10 @@
+lastUpgrade=00936
+proj.pluginVersion=0.9.36
+proj.AppId=909837938039
+and.BundleId=dotFlip.firstRealse.apkFile
+proj.classDir=Assets
+proj.ConstantsClassName=DotFlipEventManager
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--%0d%0aGoogle+Play+game+services+IDs.%0d%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0d%0a--%3e%0d%0a%3cresources%3e%0d%0a++%3cstring+name%3d%22app_id%22%3e909837938039%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22package_name%22%3edotFlip.firstRealse.apkFile%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_clear_tutorial%22%3eCgkI99rEtL0aEAIQAQ%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_40_stage_clear%22%3eCgkI99rEtL0aEAIQAg%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_80_stage_clear%22%3eCgkI99rEtL0aEAIQAw%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_one_coin_mode%22%3eCgkI99rEtL0aEAIQBA%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_40_stage_played_in_one_coinmode%22%3eCgkI99rEtL0aEAIQBQ%3c%2fstring%3e%0d%0a%3c%2fresources%3e%0d%0a
+and.ClientId=
+proj.requireGPlus=false
+android.SetupDone=true

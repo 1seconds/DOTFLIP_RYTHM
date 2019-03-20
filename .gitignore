@@ -1,0 +1,8 @@
+DotFlip/Library/
+DotFlip/obj/
+DotFlip/Temp/
+*.DS_Store
+Library/
+*.csproj
+*.suo
+*.sln
