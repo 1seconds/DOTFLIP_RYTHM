@@ -38,7 +38,7 @@ public class UISystem : MonoBehaviour
     {
         //init
         messageText.text = "";
-        blockCanvasTrans = downSideCanvas.transform.GetChild(5).transform.GetChild(0).transform;
+        blockCanvasTrans = downSideCanvas.transform.GetChild(4).transform.GetChild(0).transform;
         if (saveBlockBtn != null)
             SaveBlockOn();
         if(delBtn != null)
