@@ -44,47 +44,47 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         modX = (int)(Input.mousePosition.x / 32);
         modY = (int)(Input.mousePosition.y / 32);
 
-        if (modX < 2)
+        if (modX < 5)
         {
             restX = 50;
-            modX = 1;
+            modX = 4;
         }
-        else if (modX > 13)
+        else if (modX > 35)
         {
             restX = 50;
-            modX = 13;
+            modX = 35;
         }
-        if (modY < 2)
+        if (modY < 5)
         {
             restY = 50;
-            modY = 1;
+            modY = 4;
         }
-        else if (modY > 6)
+        else if (modY > 17)
         {
             restY = 50;
-            modY = 6;
+            modY = 17;
         }
 
         if (restX < 32)
         {
             if (restY < 32)
             {
-                obj.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(80 * modX, 80 * modY, 0));
+                obj.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(32 * modX, 32 * modY, 0));
             }
             else if (restY >= 32)
             {
-                obj.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(80 * modX, 80 * (modY + 1), 0));
+                obj.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(32 * modX, 32 * (modY + 1), 0));
             }
         }
         else if (restX >= 32)
         {
             if (restY < 32)
             {
-                obj.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(80 * (modX + 1), 80 * modY, 0));
+                obj.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(32 * (modX + 1), 32 * modY, 0));
             }
             else if (restY >= 32)
             {
-                obj.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(80 * (modX + 1), 80 * (modY + 1), 0));
+                obj.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(32 * (modX + 1), 32 * (modY + 1), 0));
             }
         }
         obj.transform.position += new Vector3(0, 0, 6);
@@ -138,6 +138,7 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         if (!gameSystem.currentGameState.Equals(GameState.READY))
             return;
+
         if (ItemSystem.paintPrefab == null)
         {
             restX = Input.mousePosition.x % 32;
@@ -170,22 +171,6 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             }
             return;
         }
-
-        //if (ItemSystem.paintPrefab.name.Contains("Slow"))
-        //{
-        //    gameObject.GetComponent<SpriteRenderer>().color = new Color(0,255,255, 0.5f);
-        //    gameObject.GetComponent<BlockMove>().currentBlock = Block.SLOW;
-        //    ItemSystem.CancelItem();
-        //    return;
-        //}
-
-        //else if(ItemSystem.paintPrefab.name.Contains("Booster"))
-        //{
-        //    gameObject.GetComponent<SpriteRenderer>().color = Color.red + new Color(0, 0, 0, -0.5f);
-        //    gameObject.GetComponent<BlockMove>().currentBlock = Block.BOOSTER;
-        //    ItemSystem.CancelItem();
-        //    return;
-        //}
     }
 
     public void OnMouseUp()

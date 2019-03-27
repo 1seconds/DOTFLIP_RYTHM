@@ -16,7 +16,6 @@ public class TimerSystem : MonoBehaviour
 
     private void Start()
     {
-        currentStageTime = gameObject.GetComponent<StageSystem>().stage[gameObject.GetComponent<StageSystem>().currentStage - 1].currentMaximumTime;
         intervalPoint = endPoint - startPoint;
         currentPoint = startPoint;
         StartCoroutine(TimerWorking(intervalPoint / currentStageTime));

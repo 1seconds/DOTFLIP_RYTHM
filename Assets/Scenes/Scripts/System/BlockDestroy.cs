@@ -34,29 +34,29 @@ public class BlockDestroy : MonoBehaviour
         if (isDestroyClick)
         {
             tmpVector = GameObject.FindWithTag("MainCamera").GetComponent<Camera>().WorldToScreenPoint(gameObject.transform.position);
-            restX = tmpVector.x % 80;
-            restY = tmpVector.y % 80;
-            modX = (int)(tmpVector.x / 80);
-            modY = (int)(tmpVector.y / 80);
+            restX = tmpVector.x % 32;
+            restY = tmpVector.y % 32;
+            modX = (int)(tmpVector.x / 32);
+            modY = (int)(tmpVector.y / 32);
 
-            if (restX < 40)
+            if (restX < 32)
             {
-                if (restY < 40)
+                if (restY < 32)
                 {
                     GameSystem.TileObject(modX - 1, modY - 1, true);
                 }
-                else if (restY >= 40)
+                else if (restY >= 32)
                 {
                     GameSystem.TileObject(modX - 1, modY, true);
                 }
             }
-            else if (restX >= 40)
+            else if (restX >= 32)
             {
-                if (restY < 40)
+                if (restY < 32)
                 {
                     GameSystem.TileObject(modX, modY - 1, true);
                 }
-                else if (restY >= 40)
+                else if (restY >= 32)
                 {
 
                     GameSystem.TileObject(modX, modY, true);

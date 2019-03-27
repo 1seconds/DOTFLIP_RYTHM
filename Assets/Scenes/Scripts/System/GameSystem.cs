@@ -21,8 +21,8 @@ public class GameSystem : MonoBehaviour
     private Vector3[] switchContainObjectEulerAngle;               //스위치가 있는 오브젝트의 각도값
     private GameObject[] switchContainObject;
 
-    public static int rowCnt = 6;
-    public static int colCnt = 13;
+    public static int rowCnt = 17;
+    public static int colCnt = 35;
 
     static public bool[,] tileObjectState = new bool[colCnt, rowCnt];
 
@@ -68,14 +68,12 @@ public class GameSystem : MonoBehaviour
         player = GameObject.FindWithTag("Player");
 
         SaveSwitchContainObjectPos();
-        uiSystem.MessageManager(stageSystem.stage[stageSystem.currentStage - 1].messageInfo.preMent, 0);
     }
 
     //게임 시작
     public void GameStart(Direct direct)
     {
         currentGameState = GameState.DISPLAYING;
-        uiSystem.MessageManager(stageSystem.stage[stageSystem.currentStage - 1].messageInfo.ment, stageSystem.stage[stageSystem.currentStage - 1].messageInfo.messageDisplayTime);
         player.GetComponent<PlayerMove>().currentDirect = direct;
         blocks = GameObject.FindGameObjectsWithTag("Block");
         SoundManager.instance_.bgmSource.clip = SoundManager.instance_.bgmClips[0];
@@ -108,8 +106,7 @@ public class GameSystem : MonoBehaviour
         currentGameState = GameState.READY;
         uiSystem.DownSideCanvasOn();
         gameObject.GetComponent<CameraSystem>().camera_.transform.position = new Vector3(0, 0, -10);
-
-        uiSystem.MessageManager(stageSystem.stage[stageSystem.currentStage - 1].messageInfo.preMent, 0);
+        
         for (int i = 0; i < obstacleBlocks.Length; i++)
         {
             obstacleBlocks[i].GetComponent<SpriteRenderer>().color = new Color(obstacleBlocks[i].GetComponent<SpriteRenderer>().color.r, obstacleBlocks[i].GetComponent<SpriteRenderer>().color.g, obstacleBlocks[i].GetComponent<SpriteRenderer>().color.b, 1);

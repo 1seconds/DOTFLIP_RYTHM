@@ -7,29 +7,6 @@ public class BlockMove : MonoBehaviour
     public Direct direct;
     public Block currentBlock;
 
-    private Vector3 tmpVector;
-    private float restX;    //나머지
-    private float restY;
-    private int modX;       //몫
-    private int modY;
-    private CameraSystem cameraSystem;
-
-    private void OnTriggerEnter(Collider obj)
-    {
-        //if (obj.CompareTag("Player"))
-        //{
-        //    switch (currentBlock)
-        //    {
-        //        case Block.SLOW:
-        //            obj.GetComponent<PlayerMove>().SpeedDown();
-        //            break;
-        //        case Block.BOOSTER:
-        //            obj.GetComponent<PlayerMove>().SpeedUp();
-        //            break;
-        //    }
-        //}
-    }
-
     private void OnTriggerStay(Collider obj)
     {
         if (obj.CompareTag("Player"))

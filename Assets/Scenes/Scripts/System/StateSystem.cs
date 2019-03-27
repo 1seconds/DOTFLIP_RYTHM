@@ -26,8 +26,8 @@ public enum ClockDirect
 
 public enum UISet
 {
-    UIBLOCK,
-    SETBLOCK
+    SETTINGBLOCK,       //설치해야할 블럭
+    SETEDBLOCK          //이미설치된 블럭
 }
 
 public enum Block
