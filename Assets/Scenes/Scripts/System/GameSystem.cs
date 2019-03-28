@@ -76,7 +76,6 @@ public class GameSystem : MonoBehaviour
         currentGameState = GameState.DISPLAYING;
         player.GetComponent<PlayerMove>().currentDirect = direct;
         blocks = GameObject.FindGameObjectsWithTag("Block");
-        SoundManager.instance_.bgmSource.clip = SoundManager.instance_.bgmClips[0];
         SoundManager.instance_.bgmSource.Play();
     }
 
@@ -101,7 +100,6 @@ public class GameSystem : MonoBehaviour
         SoundManager.instance_.SFXPlay(SoundManager.instance_.sfxClips[0], 0.5f);
         yield return new WaitForSeconds(0.9f);
 
-        player.transform.position = stageSystem.playerInitPos;
         player.GetComponent<PlayerMove>().currentDirect = Direct.HOLD;
         currentGameState = GameState.READY;
         uiSystem.DownSideCanvasOn();

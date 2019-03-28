@@ -17,20 +17,4 @@ public class GoalManager : MonoBehaviour
             isTrigger = true;
         }
     }
-
-    private void Update()
-    {
-        if(isTrigger)
-        {
-            time_ += Time.deltaTime;
-            if (time_ > 0.5f)
-            {
-                if (System.Convert.ToInt32((GameObject.FindWithTag("GameManager").GetComponent<StageSystem>().currentStage + 1).ToString()) < 10)
-                    stage += (GameObject.FindWithTag("GameManager").GetComponent<StageSystem>().currentStage + 1).ToString();
-                else
-                    stage = (GameObject.FindWithTag("GameManager").GetComponent<StageSystem>().currentStage + 1).ToString();
-                SceneManager.LoadScene(stage);
-            }
-        }
-    }
 }

@@ -7,7 +7,6 @@ public class SoundManager : MonoBehaviour
     public AudioSource bgmSource;
     public AudioSource sfxSource;
 
-    public AudioClip[] bgmClips;
     public AudioClip[] sfxClips;
 
     static public SoundManager instance_;
