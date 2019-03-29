@@ -132,6 +132,8 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             }
         }
         blockPrefab.transform.position += new Vector3(0, 0, 3.7f);
+        Destroy(gameObject);
+        GameObject.FindWithTag("GameManager").GetComponent<StageSystem>().DownSideUIPoolLeftMove();
     }
 
     public void OnMouseDown()

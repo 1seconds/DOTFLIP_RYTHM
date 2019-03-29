@@ -10,6 +10,7 @@ public class StageSystem : MonoBehaviour
 
     private GameObject prefabObj;
     private float initUIPos = 180;
+    private float time_;
 
     private void Awake()
     {
@@ -18,9 +19,29 @@ public class StageSystem : MonoBehaviour
         for(int i = 0; i< currentStageInfo.stageOrder.Length;i++)
         {
             prefabObj = Instantiate(currentStageInfo.stageOrder[i].obj);
-            prefabObj.transform.localPosition = new Vector3(initUIPos + (i * 100), 60, 0);
+            prefabObj.transform.localPosition = new Vector3(initUIPos + (i * 100) + 10, 60, 0);
             prefabObj.transform.parent = downSideUIPoolTrans;
         }
-        
+    }
+
+    public void DownSideUIPoolLeftMove()
+    {
+        StartCoroutine(DownSideUIPoolLeftMoveCor());
+    }
+
+    IEnumerator DownSideUIPoolLeftMoveCor()
+    {
+        time_ = 0;
+        while(true)
+        {
+            yield return new WaitForEndOfFrame();
+            time_ += Time.deltaTime;
+
+            for (int i = 0; i < downSideUIPoolTrans.childCount; i++)
+                downSideUIPoolTrans.GetChild(i).localPosition = Vector3.Lerp(new Vector3(initUIPos + (i * 100) - 40, -40, 0), new Vector3(initUIPos + (i * 100) - 40, -40, 0) - new Vector3(100, 0, 0), time_);
+
+            if (time_ > 1.0f)
+                break;
+        }
     }
 }
