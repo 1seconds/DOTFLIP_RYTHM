@@ -11,7 +11,6 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private GameObject blockPrefab;
     static public GameObject targetBlock;
     private GameSystem gameSystem;
-    private CameraSystem cameraSystem;
 
     private float restX;    //나머지
     private float restY;
@@ -22,7 +21,6 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void Start()
     {
-        cameraSystem = GameObject.FindWithTag("GameManager").GetComponent<CameraSystem>();
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         gameSystem = GameObject.FindWithTag("GameManager").GetComponent<GameSystem>();
     }

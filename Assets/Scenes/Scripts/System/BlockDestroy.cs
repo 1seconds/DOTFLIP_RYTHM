@@ -12,7 +12,6 @@ public class BlockDestroy : MonoBehaviour
     private int modX;       //몫
     private int modY;
     private Vector3 tmpVector;
-    private CameraSystem cameraSystem;
 
     public bool isDestroyClick = false;
 
@@ -23,7 +22,6 @@ public class BlockDestroy : MonoBehaviour
 
     private void Start()
     {
-        cameraSystem = GameObject.FindWithTag("GameManager").GetComponent<CameraSystem>();
         //gameObject.GetComponent<Rigidbody>()
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
         gameObject.GetComponent<Rigidbody>().AddForce(new Vector3((randomValue(0, 200) - 100), (randomValue(0, 25)), 0) * power);

@@ -88,16 +88,16 @@ public class UISystem : MonoBehaviour
         switch (direct)
         {
             case 1:
-                gameObject.GetComponent<GameSystem>().GameStart(Direct.UP); 
+                gameObject.GetComponent<GameSystem>().GameStart(); 
                 break;
             case 2:
-                gameObject.GetComponent<GameSystem>().GameStart(Direct.DOWN);
+                gameObject.GetComponent<GameSystem>().GameStart();
                 break;
             case 3:
-                gameObject.GetComponent<GameSystem>().GameStart(Direct.RIGHT);
+                gameObject.GetComponent<GameSystem>().GameStart();
                 break;
             case 4:
-                gameObject.GetComponent<GameSystem>().GameStart(Direct.LEFT);
+                gameObject.GetComponent<GameSystem>().GameStart();
                 break;
         }
 

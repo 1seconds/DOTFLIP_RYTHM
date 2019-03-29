@@ -71,11 +71,13 @@ public class GameSystem : MonoBehaviour
     }
 
     //게임 시작
-    public void GameStart(Direct direct)
+    public void GameStart()
     {
+        //다 사용했을때에만 시작가능
+        if (stageSystem.downSideUIPoolTrans.childCount > 0)
+            return;
+
         currentGameState = GameState.DISPLAYING;
-        player.GetComponent<PlayerMove>().currentDirect = direct;
-        blocks = GameObject.FindGameObjectsWithTag("Block");
         SoundManager.instance_.bgmSource.Play();
     }
 
@@ -88,22 +90,17 @@ public class GameSystem : MonoBehaviour
     //라이프를 모두 다 사용했을 때
     public void GameEnd()
     {
+
     }
 
     IEnumerator GameMissCor()
     {
         currentGameState = GameState.FAIL;
-
-        for (int i = 0; i < lightSet.childCount; i++)
-            lightSet.GetChild(i).GetComponent<LightManager>().CoroutineStop();
         yield return new WaitForSeconds(0.8f);
         SoundManager.instance_.SFXPlay(SoundManager.instance_.sfxClips[0], 0.5f);
         yield return new WaitForSeconds(0.9f);
 
-        player.GetComponent<PlayerMove>().currentDirect = Direct.HOLD;
         currentGameState = GameState.READY;
-        uiSystem.DownSideCanvasOn();
-        gameObject.GetComponent<CameraSystem>().camera_.transform.position = new Vector3(0, 0, -10);
         
         for (int i = 0; i < obstacleBlocks.Length; i++)
         {
@@ -113,32 +110,6 @@ public class GameSystem : MonoBehaviour
 
         for (int i = 0; i < diamond.Length; i++)
             diamond[i].SetActive(true);
-
-        //Init
-        for (int i = 0; i < switchContainObjectPos.Length; i++)
-        {
-            switchContainObject[i].transform.localEulerAngles = switchContainObjectEulerAngle[i];
-            switchContainObject[i].transform.localPosition = switchContainObjectPos[i];
-
-            if (switchContainObject[i].GetComponent<Move>() != null)
-            {
-                switchContainObject[i].GetComponent<Move>().switchObj.GetComponent<Switch>().switchOn = false;
-                switchContainObject[i].GetComponent<Move>().switchObj.GetComponent<Switch>().StopCor();
-            }
-
-            else if (switchContainObject[i].GetComponent<Spin>() != null)
-            {
-                switchContainObject[i].GetComponent<Spin>().switchObj.GetComponent<Switch>().switchOn = false;
-                switchContainObject[i].GetComponent<Spin>().switchObj.GetComponent<Switch>().StopCor();
-            }
-
-            else if (switchContainObject[i].GetComponent<Blink>() != null)
-            {
-                switchContainObject[i].GetComponent<Blink>().switchObj.GetComponent<Switch>().switchOn = false;
-                switchContainObject[i].GetComponent<Blink>().switchObj.GetComponent<Switch>().StopCor();
-            }
-
-        }
 
         if (UISystem.isSaveBlockOn)
         {
@@ -150,4 +121,10 @@ public class GameSystem : MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            GameStart();
+    }
 }

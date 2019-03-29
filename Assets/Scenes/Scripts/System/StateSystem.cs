@@ -9,15 +9,6 @@ public enum GameState
     FAIL
 }
 
-public enum Direct
-{
-    HOLD,
-    UP,
-    DOWN,
-    RIGHT,
-    LEFT,
-}
-
 public enum ClockDirect
 {
     CLOCKWISE,          //시계방향
