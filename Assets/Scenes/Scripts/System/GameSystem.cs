@@ -13,8 +13,7 @@ public class GameSystem : MonoBehaviour
 
     private GameObject player;
     public GameObject[] blocks;
-    public GameObject[] obstacleBlocks;
-    public GameObject[] diamond;
+    public GameObject[] orderedBlocks;
 
     static public Stack<GameObject> switchContainObjectsStack = new Stack<GameObject>();           //스위치가 있는 오브젝트들
     private Vector3[] switchContainObjectPos;               //스위치가 있는 오브젝트의 위치값
@@ -23,6 +22,8 @@ public class GameSystem : MonoBehaviour
 
     public static int rowCnt = 17;
     public static int colCnt = 35;
+
+    private float time_;
 
     static public bool[,] tileObjectState = new bool[colCnt, rowCnt];
 
@@ -70,6 +71,23 @@ public class GameSystem : MonoBehaviour
         SaveSwitchContainObjectPos();
     }
 
+    IEnumerator PlayerMoveCor(int index)
+    {
+        time_ = 0;
+        while (true)
+        {
+            time_ += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+
+            player.transform.position = Vector2.Lerp(gameObject.transform.position, orderedBlocks[index].transform.position, time_);
+            if (time_ > (Vector2.Distance(player.transform.position, orderedBlocks[index].transform.position) / orderedBlocks[index].GetComponent<BlockData>().speed))
+                break;
+        }
+
+        index += 1;
+        StartCoroutine(PlayerMoveCor(index));
+    }
+
     //게임 시작
     public void GameStart()
     {
@@ -77,6 +95,21 @@ public class GameSystem : MonoBehaviour
         if (stageSystem.downSideUIPoolTrans.childCount > 0)
             return;
 
+        blocks = GameObject.FindGameObjectsWithTag("Block");
+        orderedBlocks = new GameObject[blocks.Length];
+
+        for(int i =0; i< blocks.Length;i++)
+        {
+            for(int j = 0; j< orderedBlocks.Length;j++)
+            {
+                if (blocks[j].GetComponent<BlockData>().order == i)
+                {
+                    orderedBlocks[i] = blocks[j];
+                    break;
+                }   
+            }
+        }
+        StartCoroutine(PlayerMoveCor(0));
         currentGameState = GameState.DISPLAYING;
         SoundManager.instance_.bgmSource.Play();
     }
@@ -101,30 +134,12 @@ public class GameSystem : MonoBehaviour
         yield return new WaitForSeconds(0.9f);
 
         currentGameState = GameState.READY;
-        
-        for (int i = 0; i < obstacleBlocks.Length; i++)
-        {
-            obstacleBlocks[i].GetComponent<SpriteRenderer>().color = new Color(obstacleBlocks[i].GetComponent<SpriteRenderer>().color.r, obstacleBlocks[i].GetComponent<SpriteRenderer>().color.g, obstacleBlocks[i].GetComponent<SpriteRenderer>().color.b, 1);
-            obstacleBlocks[i].GetComponent<BoxCollider>().enabled = true;
-        }
-
-        for (int i = 0; i < diamond.Length; i++)
-            diamond[i].SetActive(true);
-
-        if (UISystem.isSaveBlockOn)
-        {
-            for (int i = 0; i < blocks.Length; i++)
-            {
-                blocks[i].GetComponent<SpriteRenderer>().color = new Color(blocks[i].GetComponent<SpriteRenderer>().color.r, blocks[i].GetComponent<SpriteRenderer>().color.g, blocks[i].GetComponent<SpriteRenderer>().color.b, 1);
-                blocks[i].GetComponent<BoxCollider>().enabled = true;
-            }
-        }
     }
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !currentGameState.Equals(GameState.DISPLAYING))
             GameStart();
     }
 }

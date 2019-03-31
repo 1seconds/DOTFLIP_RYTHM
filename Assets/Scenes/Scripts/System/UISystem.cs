@@ -83,7 +83,6 @@ public class UISystem : MonoBehaviour
     //비활성화 - 게임시작
     public void DownSideCanvasOff(int direct)
     {        
-        gameObject.GetComponent<GameSystem>().obstacleBlocks = GameObject.FindGameObjectsWithTag("ObstacleBlock");
 
         switch (direct)
         {

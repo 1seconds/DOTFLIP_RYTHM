@@ -9,7 +9,7 @@ public class Diamond : MonoBehaviour
 
     private void Start()
     {
-        GameObject.FindWithTag("GameManager").GetComponent<GameSystem>().diamond = GameObject.FindGameObjectsWithTag("Diamond");
+
     }
 
     private void OnEnable()
