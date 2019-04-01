@@ -49,5 +49,7 @@ public class BlockData : MonoBehaviour
         {
             speed = 16f;
         }
+
+        speed *= GameObject.FindWithTag("GameManager").GetComponent<StageSystem>().currentStageInfo.speed;
     }
 }

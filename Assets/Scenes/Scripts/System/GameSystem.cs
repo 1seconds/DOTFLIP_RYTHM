@@ -79,13 +79,16 @@ public class GameSystem : MonoBehaviour
             time_ += Time.deltaTime;
             yield return new WaitForEndOfFrame();
 
-            player.transform.position = Vector2.Lerp(gameObject.transform.position, orderedBlocks[index].transform.position, time_);
-            if (time_ > (Vector2.Distance(player.transform.position, orderedBlocks[index].transform.position) / orderedBlocks[index].GetComponent<BlockData>().speed))
+            player.transform.position = Vector2.Lerp(player.transform.position, orderedBlocks[index].transform.position, time_ * orderedBlocks[index].GetComponent<BlockData>().speed / (Vector2.Distance(player.transform.position, orderedBlocks[index].transform.position)));
+            if (time_ > (Vector2.Distance(player.transform.position, orderedBlocks[index].transform.position)) / orderedBlocks[index].GetComponent<BlockData>().speed)
                 break;
         }
 
         index += 1;
-        StartCoroutine(PlayerMoveCor(index));
+        if (orderedBlocks.Length > index)
+        {
+            StartCoroutine(PlayerMoveCor(index));
+        }
     }
 
     //게임 시작
