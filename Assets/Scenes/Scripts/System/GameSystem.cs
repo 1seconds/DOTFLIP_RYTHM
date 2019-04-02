@@ -27,6 +27,12 @@ public class GameSystem : MonoBehaviour
 
     static public bool[,] tileObjectState = new bool[colCnt, rowCnt];
 
+
+    //방향벡터 변수
+    private Vector3 heading_;
+    private float distance_;
+    private Vector3 direction_;
+
     static public void TileObject(int row, int col, bool isAble)
     {
         if (row - 1 < 0 || col - 1 < 0)
@@ -79,16 +85,24 @@ public class GameSystem : MonoBehaviour
             time_ += Time.deltaTime;
             yield return new WaitForEndOfFrame();
 
-            player.transform.position = Vector2.Lerp(player.transform.position, orderedBlocks[index].transform.position, time_ * orderedBlocks[index].GetComponent<BlockData>().speed / (Vector2.Distance(player.transform.position, orderedBlocks[index].transform.position)));
-            if (time_ > (Vector2.Distance(player.transform.position, orderedBlocks[index].transform.position)) / orderedBlocks[index].GetComponent<BlockData>().speed)
+            heading_ = orderedBlocks[index].transform.position - player.transform.position;
+            distance_ = heading_.magnitude;
+            direction_ = heading_ / distance_;
+
+            player.transform.Translate(direction_ * orderedBlocks[index].GetComponent<BlockData>().speed);
+
+            Debug.Log("222");
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                Debug.Log("333");
                 break;
+            }
         }
 
         index += 1;
         if (orderedBlocks.Length > index)
-        {
             StartCoroutine(PlayerMoveCor(index));
-        }
     }
 
     //게임 시작
