@@ -12,26 +12,21 @@ public class GameSystem : MonoBehaviour
     private StageSystem stageSystem;
 
     private GameObject player;
-    public GameObject[] blocks;
-    public GameObject[] orderedBlocks;
-
-    static public Stack<GameObject> switchContainObjectsStack = new Stack<GameObject>();           //스위치가 있는 오브젝트들
-    private Vector3[] switchContainObjectPos;               //스위치가 있는 오브젝트의 위치값
-    private Vector3[] switchContainObjectEulerAngle;               //스위치가 있는 오브젝트의 각도값
-    private GameObject[] switchContainObject;
+    [HideInInspector] public GameObject[] blocks;
+    [HideInInspector] public GameObject[] orderedBlocks;
 
     public static int rowCnt = 17;
     public static int colCnt = 35;
 
     private float time_;
+    private bool isSpaceKeyDown = false;
 
     static public bool[,] tileObjectState = new bool[colCnt, rowCnt];
 
 
     //방향벡터 변수
-    private Vector3 heading_;
-    private float distance_;
-    private Vector3 direction_;
+    private Vector3 initHeading;
+    private float distance;
 
     static public void TileObject(int row, int col, bool isAble)
     {
@@ -53,53 +48,42 @@ public class GameSystem : MonoBehaviour
             }
         }
     }
-    private void SaveSwitchContainObjectPos()
-    {
-        switchContainObject = new GameObject[switchContainObjectsStack.Count];
-        switchContainObjectPos = new Vector3[switchContainObjectsStack.Count];
-        switchContainObjectEulerAngle = new Vector3[switchContainObjectsStack.Count];
-
-        //초기 위치 저장
-        for (int i =0; i< switchContainObject.Length; i++)
-        {
-            switchContainObject[i] = switchContainObjectsStack.Pop();
-            switchContainObjectPos[i] = switchContainObject[i].transform.localPosition;
-            switchContainObjectEulerAngle[i] = switchContainObject[i].transform.localEulerAngles;
-        }
-    }
 
     private void Start()
     {
         stageSystem = gameObject.GetComponent<StageSystem>();
         uiSystem = gameObject.GetComponent<UISystem>();
         player = GameObject.FindWithTag("Player");
-
-        SaveSwitchContainObjectPos();
     }
 
     IEnumerator PlayerMoveCor(int index)
     {
         time_ = 0;
+
+        initHeading = (orderedBlocks[index].transform.position - player.transform.position) / (orderedBlocks[index].transform.position - player.transform.position).magnitude;
+
         while (true)
         {
             time_ += Time.deltaTime;
             yield return new WaitForEndOfFrame();
+            distance = (orderedBlocks[index].transform.position - player.transform.position).magnitude;
 
-            heading_ = orderedBlocks[index].transform.position - player.transform.position;
-            distance_ = heading_.magnitude;
-            direction_ = heading_ / distance_;
 
-            player.transform.Translate(direction_ * orderedBlocks[index].GetComponent<BlockData>().speed);
+            player.transform.Translate(initHeading * orderedBlocks[index].GetComponent<BlockData>().speed);
 
-            Debug.Log("222");
+            //if (distance* speed > 일정수치)
+            //{
+            //    Debug.Log("종료");
+            //    GameMiss();
+            //    break;
+            //}
 
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (isSpaceKeyDown)
             {
-                Debug.Log("333");
+                isSpaceKeyDown = false;
                 break;
             }
         }
-
         index += 1;
         if (orderedBlocks.Length > index)
             StartCoroutine(PlayerMoveCor(index));
@@ -112,6 +96,7 @@ public class GameSystem : MonoBehaviour
         if (stageSystem.downSideUIPoolTrans.childCount > 0)
             return;
 
+        currentGameState = GameState.DISPLAYING;
         blocks = GameObject.FindGameObjectsWithTag("Block");
         orderedBlocks = new GameObject[blocks.Length];
 
@@ -127,7 +112,7 @@ public class GameSystem : MonoBehaviour
             }
         }
         StartCoroutine(PlayerMoveCor(0));
-        currentGameState = GameState.DISPLAYING;
+        
         SoundManager.instance_.bgmSource.Play();
     }
 
@@ -156,7 +141,12 @@ public class GameSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !currentGameState.Equals(GameState.DISPLAYING))
-            GameStart();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!currentGameState.Equals(GameState.DISPLAYING))
+                GameStart();
+            else
+                isSpaceKeyDown = true;
+        }
     }
 }
