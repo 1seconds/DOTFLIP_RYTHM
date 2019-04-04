@@ -6,19 +6,17 @@ using System;
 public class GameSystem : MonoBehaviour
 {
     public GameState currentGameState;
-    public Transform lightSet;
 
     private UISystem uiSystem;
     private StageSystem stageSystem;
 
     private GameObject player;
-    [HideInInspector] public GameObject[] blocks;
-    [HideInInspector] public GameObject[] orderedBlocks;
+    /*[HideInInspector]*/public GameObject[] blocks;
+    /*[HideInInspector]*/public GameObject[] orderedBlocks;
 
     public static int rowCnt = 17;
     public static int colCnt = 35;
 
-    private float time_;
     private bool isSpaceKeyDown = false;
 
     static public bool[,] tileObjectState = new bool[colCnt, rowCnt];
@@ -56,15 +54,33 @@ public class GameSystem : MonoBehaviour
         player = GameObject.FindWithTag("Player");
     }
 
+    IEnumerator BeforeEnterBlockCor()
+    {
+        initHeading = (orderedBlocks[0].transform.position - player.transform.position) / (orderedBlocks[0].transform.position - player.transform.position).magnitude;
+        
+        while (true)
+        {
+            yield return new WaitForEndOfFrame();
+            distance = (orderedBlocks[0].transform.position - player.transform.position).magnitude;
+            player.transform.Translate(initHeading * GameObject.FindWithTag("GameManager").GetComponent<StageSystem>().currentStageInfo.speed);
+
+            if (isSpaceKeyDown)
+            {
+                SoundManager.instance_.bgmSource.Play();
+                isSpaceKeyDown = false;
+                break;
+            }
+        }
+
+        StartCoroutine(PlayerMoveCor(1));
+    }
+
     IEnumerator PlayerMoveCor(int index)
     {
-        time_ = 0;
-
         initHeading = (orderedBlocks[index].transform.position - player.transform.position) / (orderedBlocks[index].transform.position - player.transform.position).magnitude;
 
         while (true)
         {
-            time_ += Time.deltaTime;
             yield return new WaitForEndOfFrame();
             distance = (orderedBlocks[index].transform.position - player.transform.position).magnitude;
 
@@ -111,9 +127,7 @@ public class GameSystem : MonoBehaviour
                 }   
             }
         }
-        StartCoroutine(PlayerMoveCor(0));
-        
-        SoundManager.instance_.bgmSource.Play();
+        StartCoroutine(BeforeEnterBlockCor());
     }
 
     //라이프를 1개 소진

@@ -18,6 +18,7 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private int modY;
 
     private float intervalValue = 35;
+    [HideInInspector] public int order;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         targetBlock = null;
         blockPrefab = Instantiate(block);
         blockPrefab.transform.parent = GameObject.FindWithTag("GameManager").transform.GetChild(1);
+        blockPrefab.GetComponent<BlockData>().order = order;
     }
 
     private void SetTilePos(GameObject obj)

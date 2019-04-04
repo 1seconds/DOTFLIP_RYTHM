@@ -21,7 +21,7 @@ public class StageSystem : MonoBehaviour
             prefabObj = Instantiate(currentStageInfo.stageOrder[i].obj);
             prefabObj.transform.localPosition = new Vector3(initUIPos + (i * 100) + 10, 60, 0);
             prefabObj.transform.parent = downSideUIPoolTrans;
-            prefabObj.GetComponent<UIDrag>().block.GetComponent<BlockData>().order = i;                 //블럭에 대한 순서
+            prefabObj.GetComponent<UIDrag>().order = i;                 //블럭에 대한 순서
         }
     }
 
