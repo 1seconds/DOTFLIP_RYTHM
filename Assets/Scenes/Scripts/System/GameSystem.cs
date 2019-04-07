@@ -72,19 +72,18 @@ public class GameSystem : MonoBehaviour
             }
         }
 
-        StartCoroutine(PlayerMoveCor(1));
+        StartCoroutine(PlayerMoveCor(0));
     }
 
     IEnumerator PlayerMoveCor(int index)
     {
-        initHeading = (orderedBlocks[index].transform.position - player.transform.position) / (orderedBlocks[index].transform.position - player.transform.position).magnitude;
+        initHeading = (orderedBlocks[index+1].transform.position - orderedBlocks[index].transform.position) / (orderedBlocks[index + 1].transform.position - orderedBlocks[index].transform.position).magnitude;
+        player.transform.position = orderedBlocks[index].transform.position;
 
         while (true)
         {
             yield return new WaitForEndOfFrame();
-            distance = (orderedBlocks[index].transform.position - player.transform.position).magnitude;
-
-
+            distance = (orderedBlocks[index+1].transform.position - orderedBlocks[index].transform.position).magnitude;
             player.transform.Translate(initHeading * orderedBlocks[index].GetComponent<BlockData>().speed);
 
             //if (distance* speed > 일정수치)
@@ -101,7 +100,7 @@ public class GameSystem : MonoBehaviour
             }
         }
         index += 1;
-        if (orderedBlocks.Length > index)
+        if (orderedBlocks.Length > index + 1)
             StartCoroutine(PlayerMoveCor(index));
     }
 
